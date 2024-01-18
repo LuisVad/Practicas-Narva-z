@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!---<link rel="shortcut icon" href="hombre.png" type="image/x-icon">-->
+    <title>Formulario</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="mb-3">
+                <label for="formGroupExampleInput" class="form-label">Coordenada X</label>
+                <input type="text" class="form-control" id="formGroupExampleInputX" placeholder="Coordenada X">
+              </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Coordenada Y</label>
+                <input type="text" class="form-control" id="formGroupExampleInputY" placeholder="Coordenada Y">
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Tiempo</label>
+                <p id="tiempo"></p>
+            </div>
+            <div class="mb-3">
+                <label for="formGroupExampleInput2" class="form-label">Cuadriculas Pintadas</label>
+                <input type="text" class="form-control" id="formGroupExampleInputC">
+            </div>
+            <div class="mb-3">
+                <button type="button" class="btn btn-success" id="iniciar" onclick="inicio();">Start</button>
+                <button type="button" class="btn btn-danger" id="detener" onclick="parar();">Stop</button>
+                <button type="button" class="btn btn-info" id="reiniciar" onclick="reinicio();">Reinicio</button>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <h4>Matriz Cuadrícula</h4>
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">---</th>
+                    <th scope="col">1</th>
+                    <th scope="col">2</th>
+                    <th scope="col">3</th>
+                    <th scope="col">4</th>
+                    <th scope="col">5</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">1</th>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">2</th>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">3</th>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">4</th>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                  </tr>
+                  <tr>
+                    <th scope="row">5</th>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                    <td id="celda"></td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</body>
+
+<script>
+    var segundos = 0;
+
+    function inicio() {
+        control = setInterval(cronometro, 1000);
+        document.getElementById("iniciar").disabled = true;
+        document.getElementById("detener").disabled = false;
+        document.getElementById("reiniciar").disabled = false;
+    }
+
+    function parar() {
+        clearInterval(control);
+        document.getElementById("detener").disabled = true;
+    }
+
+    function reinicio() {
+        clearInterval(control);
+        segundos = 0;
+        minutos = 0;
+        document.getElementById('tiempo').innerHTML = ("0" + minutos + ":" + "0" + segundos);
+
+        document.getElementById("iniciar").disabled = false;
+        document.getElementById("detener").disabled = true;
+        document.getElementById("reiniciar").disabled = false;
+    }
+
+    function cronometro() {
+            segundos += 1;
+
+            if (segundos == 60) {
+
+            segundos = 0;
+            minutos += 1;
+            }
+
+            if (segundos < 10 && minutos < 10) {
+            document.getElementById('tiempo').innerHTML = ("0" + minutos + ":" + "0" + segundos);
+            } else if (segundos >= 10 && minutos < 10) {
+            document.getElementById('tiempo').innerHTML = ("0" + minutos + ":" + segundos);
+            } else if (segundos < 10 && minutos > 10) {
+            document.getElementById('tiempo').innerHTML = (+minutos + ":" + "0" + segundos);
+            } else {
+            document.getElementById('tiempo').innerHTML = (minutos + ":" + segundos);
+            }
+    }
+
+    
+
+    function cambiar(){
+        var color=new Array("#626868", "#515f6c", "#999966", "#9ea8a8", "#b2bdbd", "#41485e", "#777777", "#eeeee6");
+        color_celda=color[Math.floor(Math.random()*color.length)];
+        document.getElementById('celda').style.background=color_celda;
+    }
+
+</script>
+</html>
