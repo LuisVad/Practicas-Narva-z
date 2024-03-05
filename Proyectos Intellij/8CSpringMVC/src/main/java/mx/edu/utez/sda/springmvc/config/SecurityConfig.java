@@ -31,8 +31,9 @@ public class SecurityConfig {
         UserDetails user1 = User.withUsername("user1").password(passwordEncoder().encode("Uno234")).roles("USER").build();
         UserDetails admin = User.withUsername("admin").password(passwordEncoder().encode("admin123")).roles("ADMIN").build();
         UserDetails recepcion = User.withUsername("recepcion").password(passwordEncoder().encode("recepcion123")).roles("RECE").build();
+        UserDetails adulto = User.withUsername("adulto").password(this.passwordEncoder().encode("adulto123")).roles("ADUL").build();
         UserDetails infantil = User.withUsername("infantil").password(passwordEncoder().encode("infantil123")).roles("INF").build();
-        return new InMemoryUserDetailsManager(user1, admin, recepcion, infantil);
+        return new InMemoryUserDetailsManager(user1, admin, recepcion, adulto, infantil);
     }
 
     @Bean
