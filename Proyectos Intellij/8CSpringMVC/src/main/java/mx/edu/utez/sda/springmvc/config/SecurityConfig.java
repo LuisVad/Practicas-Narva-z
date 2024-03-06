@@ -19,36 +19,40 @@ import org.springframework.security.web.SecurityFilterChain;
         securedEnabled = true,
         jsr250Enabled = true
 )
+
 public class SecurityConfig {
+    public SecurityConfig() {
+    }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    public InMemoryUserDetailsManager userDetailsService(){
-        UserDetails user1 = User.withUsername("user1").password(passwordEncoder().encode("Uno234")).roles("USER").build();
-        UserDetails admin = User.withUsername("admin").password(passwordEncoder().encode("admin123")).roles("ADMIN").build();
-        UserDetails recepcion = User.withUsername("recepcion").password(passwordEncoder().encode("recepcion123")).roles("RECE").build();
-        UserDetails adulto = User.withUsername("adulto").password(this.passwordEncoder().encode("adulto123")).roles("ADUL").build();
-        UserDetails infantil = User.withUsername("infantil").password(passwordEncoder().encode("infantil123")).roles("INF").build();
-        return new InMemoryUserDetailsManager(user1, admin, recepcion, adulto, infantil);
+    public InMemoryUserDetailsManager userDetailsService() {
+        UserDetails user1 = User.withUsername("user1").password(this.passwordEncoder().encode("uno123")).roles(new String[]{"USER"}).build();
+        UserDetails admin = User.withUsername("admin").password(this.passwordEncoder().encode("admin123")).roles(new String[]{"ADMIN"}).build();
+        UserDetails rece = User.withUsername("recepcion").password(this.passwordEncoder().encode("recepcion123")).roles(new String[]{"RECE"}).build();
+        UserDetails nino = User.withUsername("nino").password(this.passwordEncoder().encode("nino123")).roles(new String[]{"NINO"}).build();
+        UserDetails adulto = User.withUsername("adulto").password(this.passwordEncoder().encode("adulto123")).roles(new String[]{"ADULTO"}).build();
+
+        return new InMemoryUserDetailsManager(new UserDetails[]{user1, admin, rece, nino, adulto});
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeHttpRequests((requests) -> {
-            requests.requestMatchers("/","index").permitAll();
-            requests.anyRequest().authenticated();
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity)throws Exception {
+        httpSecurity.authorizeHttpRequests((request) -> {
+            request.requestMatchers("/", "/index").permitAll();
+            request.anyRequest().authenticated();
         });
 
         httpSecurity.formLogin((login) -> {
-           login.loginPage("/login").permitAll();
+            login.loginPage("/login").permitAll();
         });
 
         httpSecurity.logout((logout) -> {
-           logout.permitAll();
+            logout.permitAll();
         });
 
         return httpSecurity.build();
