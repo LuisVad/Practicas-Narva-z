@@ -10,16 +10,17 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class UserInfoDetails  implements UserDetails {
+public class UserInfoDetails implements UserDetails {
 
-    private String username;
+    private String name;
     private String password;
-    private boolean nonLocked;
+    boolean nonLocked;
     private List<GrantedAuthority> authorities;
 
     public UserInfoDetails(UserInfo userInfo){
-        username = userInfo.getUsername();
-        password = userInfo.getPassword();
+        this.name = userInfo.getUsername();
+        this.password = userInfo.getPassword();
+        this.nonLocked = userInfo.isNonLocked();
         authorities = Arrays.stream(userInfo.getRoles().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
@@ -37,7 +38,7 @@ public class UserInfoDetails  implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return name;
     }
 
     @Override

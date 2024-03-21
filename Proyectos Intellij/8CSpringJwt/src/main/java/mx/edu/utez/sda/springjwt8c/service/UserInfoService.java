@@ -26,7 +26,7 @@ public class UserInfoService implements UserDetailsService {
 
         return userDetail.map(UserInfoDetails::new)
                 .orElseThrow(
-                        ()-> new UsernameNotFoundException("Usuario no encontrado")
+                        ()-> new UsernameNotFoundException("Usuario no encontrado " + username)
                 );
     }
 

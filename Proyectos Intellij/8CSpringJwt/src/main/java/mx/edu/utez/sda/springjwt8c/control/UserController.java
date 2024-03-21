@@ -11,10 +11,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
@@ -37,7 +34,7 @@ public class UserController {
         return "Servicio Index";
     }
 
-    @GetMapping("/registrame")
+    @PostMapping("/registrame")
     public String registrame(@RequestBody UserInfo userInfo){
         return service.guardarUser(userInfo);
     }
@@ -54,7 +51,7 @@ public class UserController {
         return "Este endpoint puede ser para admin y user XD";
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public String login(@RequestBody AuthRequestDto authRequestDto){
         try {
             Authentication authentication =
